@@ -31,7 +31,7 @@
     <mysql-version>5.1.39</mysql-version>
     <jacksonfasterxml-version>2.5.0</jacksonfasterxml-version>
     <slf4j.version>1.8.0-alpha2</slf4j.version>
-    <log4j.version>2.9.1</log4j.version>
+    <log4j.version>2.13.3</log4j.version>
   </properties>
 
   <dependencies>
