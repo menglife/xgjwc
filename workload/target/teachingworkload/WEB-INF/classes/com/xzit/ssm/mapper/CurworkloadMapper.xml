@@ -1,0 +1,1022 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzit.ssm.mapper.CurworkloadMapper" >
+  <resultMap id="BaseResultMap" type="com.xzit.ssm.entity.Curworkload" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="xq" property="xq" jdbcType="INTEGER" />
+    <result column="kch" property="kch" jdbcType="VARCHAR" />
+    <result column="kxh" property="kxh" jdbcType="VARCHAR" />
+    <result column="kcm" property="kcm" jdbcType="VARCHAR" />
+    <result column="skls" property="skls" jdbcType="VARCHAR" />
+    <result column="lszc" property="lszc" jdbcType="VARCHAR" />
+    <result column="yxid" property="yxid" jdbcType="INTEGER" />
+    <result column="kcsx" property="kcsx" jdbcType="VARCHAR" />
+    <result column="bjmc" property="bjmc" jdbcType="VARCHAR" />
+    <result column="krl" property="krl" jdbcType="INTEGER" />
+    <result column="xkrs" property="xkrs" jdbcType="INTEGER" />
+    <result column="zxs" property="zxs" jdbcType="INTEGER" />
+    <result column="mzxs" property="mzxs" jdbcType="INTEGER" />
+    <result column="skxs" property="skxs" jdbcType="INTEGER" />
+    <result column="sjxs" property="sjxs" jdbcType="INTEGER" />
+    <result column="syxs" property="syxs" jdbcType="INTEGER" />
+    <result column="xf" property="xf" jdbcType="REAL" />
+    <result column="kclx" property="kclx" jdbcType="VARCHAR" />
+    <result column="sfcxk" property="sfcxk" jdbcType="INTEGER" />
+    <result column="bz" property="bz" jdbcType="VARCHAR" />
+    <result column="kclx1" property="kclx1" jdbcType="VARCHAR" />
+    <result column="kclx2" property="kclx2" jdbcType="VARCHAR" />
+    <result column="kclx3" property="kclx3" jdbcType="VARCHAR" />
+    <result column="kcxs" property="kcxs" jdbcType="REAL" />
+    <result column="rsxs" property="rsxs" jdbcType="REAL" />
+    <result column="lljxgzl" property="lljxgzl" jdbcType="REAL" />
+    <result column="sjjxgzl" property="sjjxgzl" jdbcType="REAL" />
+    <result column="sumgzl" property="sumgzl" jdbcType="REAL" />
+    <result column="cwd" jdbcType="VARCHAR" property="cwd" />
+    <result column="jy" jdbcType="VARCHAR" property="jy" />
+  </resultMap>
+
+  <!--关联查询-->
+  <resultMap id="RelationResultMap" type="com.xzit.ssm.entity.Curworkload" extends="BaseResultMap">
+       <!--关联学期查询:多对一关联查询-->
+       <association property="term"
+                 javaType="com.xzit.ssm.entity.Term"
+                 select="com.xzit.ssm.mapper.TermMapper.selectByPrimaryKey"
+                 column="xq"/>
+
+        <!--关联学院查询:多对一关联查询-->
+        <association property="college"
+                     javaType="com.xzit.ssm.entity.College"
+                     select="com.xzit.ssm.mapper.CollegeMapper.selectByPrimaryKey"
+                     column="yxid"/>
+  </resultMap>
+
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, xq, kch, kxh, kcm, skls, lszc, yxid, kcsx, bjmc, krl, xkrs, zxs, mzxs, skxs, 
+    sjxs, syxs, xf, kclx, sfcxk, bz, kclx1, kclx2, kclx3, kcxs, rsxs, lljxgzl, sjjxgzl, 
+    sumgzl, cwd, jy
+  </sql>
+  <select id="selectByExample" resultMap="RelationResultMap" parameterType="com.xzit.ssm.entity.CurworkloadExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from curworkload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from curworkload
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from curworkload
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xzit.ssm.entity.CurworkloadExample" >
+    delete from curworkload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xzit.ssm.entity.Curworkload" >
+    insert into curworkload (id, xq, kch, 
+      kxh, kcm, skls, lszc, 
+      yxid, kcsx, bjmc, krl, 
+      xkrs, zxs, mzxs, skxs, 
+      sjxs, syxs, xf, kclx, 
+      sfcxk, bz, kclx1, kclx2, 
+      kclx3, kcxs, rsxs, lljxgzl, 
+      sjjxgzl, sumgzl,cwd,jy)
+    values (#{id,jdbcType=INTEGER}, #{xq,jdbcType=INTEGER}, #{kch,jdbcType=VARCHAR}, 
+      #{kxh,jdbcType=VARCHAR}, #{kcm,jdbcType=VARCHAR}, #{skls,jdbcType=VARCHAR}, #{lszc,jdbcType=VARCHAR}, 
+      #{yxid,jdbcType=INTEGER}, #{kcsx,jdbcType=VARCHAR}, #{bjmc,jdbcType=VARCHAR}, #{krl,jdbcType=INTEGER}, 
+      #{xkrs,jdbcType=INTEGER}, #{zxs,jdbcType=INTEGER}, #{mzxs,jdbcType=INTEGER}, #{skxs,jdbcType=INTEGER}, 
+      #{sjxs,jdbcType=INTEGER}, #{syxs,jdbcType=INTEGER}, #{xf,jdbcType=REAL}, #{kclx,jdbcType=VARCHAR}, 
+      #{sfcxk,jdbcType=INTEGER}, #{bz,jdbcType=VARCHAR}, #{kclx1,jdbcType=VARCHAR}, #{kclx2,jdbcType=VARCHAR}, 
+      #{kclx3,jdbcType=VARCHAR}, #{kcxs,jdbcType=REAL}, #{rsxs,jdbcType=REAL}, #{lljxgzl,jdbcType=REAL}, 
+      #{sjjxgzl,jdbcType=REAL}, #{sumgzl,jdbcType=REAL},#{cwd,jdbcType=VARCHAR}, #{jy,jdbcType=VARCHAR},)
+  </insert>
+  <insert id="insertcwd" parameterType="com.xzit.ssm.entity.Curworkload">
+
+
+  </insert>
+  <insert id="insertSelective" parameterType="com.xzit.ssm.entity.Curworkload" >
+    insert into curworkload
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="xq != null" >
+        xq,
+      </if>
+      <if test="kch != null" >
+        kch,
+      </if>
+      <if test="kxh != null" >
+        kxh,
+      </if>
+      <if test="kcm != null" >
+        kcm,
+      </if>
+      <if test="skls != null" >
+        skls,
+      </if>
+      <if test="lszc != null" >
+        lszc,
+      </if>
+      <if test="yxid != null" >
+        yxid,
+      </if>
+      <if test="kcsx != null" >
+        kcsx,
+      </if>
+      <if test="bjmc != null" >
+        bjmc,
+      </if>
+      <if test="krl != null" >
+        krl,
+      </if>
+      <if test="xkrs != null" >
+        xkrs,
+      </if>
+      <if test="zxs != null" >
+        zxs,
+      </if>
+      <if test="mzxs != null" >
+        mzxs,
+      </if>
+      <if test="skxs != null" >
+        skxs,
+      </if>
+      <if test="sjxs != null" >
+        sjxs,
+      </if>
+      <if test="syxs != null" >
+        syxs,
+      </if>
+      <if test="xf != null" >
+        xf,
+      </if>
+      <if test="kclx != null" >
+        kclx,
+      </if>
+      <if test="sfcxk != null" >
+        sfcxk,
+      </if>
+      <if test="bz != null" >
+        bz,
+      </if>
+      <if test="kclx1 != null" >
+        kclx1,
+      </if>
+      <if test="kclx2 != null" >
+        kclx2,
+      </if>
+      <if test="kclx3 != null" >
+        kclx3,
+      </if>
+      <if test="kcxs != null" >
+        kcxs,
+      </if>
+      <if test="rsxs != null" >
+        rsxs,
+      </if>
+      <if test="lljxgzl != null" >
+        lljxgzl,
+      </if>
+      <if test="sjjxgzl != null" >
+        sjjxgzl,
+      </if>
+      <if test="sumgzl != null" >
+        sumgzl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="xq != null" >
+        #{xq,jdbcType=INTEGER},
+      </if>
+      <if test="kch != null" >
+        #{kch,jdbcType=VARCHAR},
+      </if>
+      <if test="kxh != null" >
+        #{kxh,jdbcType=VARCHAR},
+      </if>
+      <if test="kcm != null" >
+        #{kcm,jdbcType=VARCHAR},
+      </if>
+      <if test="skls != null" >
+        #{skls,jdbcType=VARCHAR},
+      </if>
+      <if test="lszc != null" >
+        #{lszc,jdbcType=VARCHAR},
+      </if>
+      <if test="yxid != null" >
+        #{yxid,jdbcType=INTEGER},
+      </if>
+      <if test="kcsx != null" >
+        #{kcsx,jdbcType=VARCHAR},
+      </if>
+      <if test="bjmc != null" >
+        #{bjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="krl != null" >
+        #{krl,jdbcType=INTEGER},
+      </if>
+      <if test="xkrs != null" >
+        #{xkrs,jdbcType=INTEGER},
+      </if>
+      <if test="zxs != null" >
+        #{zxs,jdbcType=INTEGER},
+      </if>
+      <if test="mzxs != null" >
+        #{mzxs,jdbcType=INTEGER},
+      </if>
+      <if test="skxs != null" >
+        #{skxs,jdbcType=INTEGER},
+      </if>
+      <if test="sjxs != null" >
+        #{sjxs,jdbcType=INTEGER},
+      </if>
+      <if test="syxs != null" >
+        #{syxs,jdbcType=INTEGER},
+      </if>
+      <if test="xf != null" >
+        #{xf,jdbcType=REAL},
+      </if>
+      <if test="kclx != null" >
+        #{kclx,jdbcType=VARCHAR},
+      </if>
+      <if test="sfcxk != null" >
+        #{sfcxk,jdbcType=INTEGER},
+      </if>
+      <if test="bz != null" >
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx1 != null" >
+        #{kclx1,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx2 != null" >
+        #{kclx2,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx3 != null" >
+        #{kclx3,jdbcType=VARCHAR},
+      </if>
+      <if test="kcxs != null" >
+        #{kcxs,jdbcType=REAL},
+      </if>
+      <if test="rsxs != null" >
+        #{rsxs,jdbcType=REAL},
+      </if>
+      <if test="lljxgzl != null" >
+        #{lljxgzl,jdbcType=REAL},
+      </if>
+      <if test="sjjxgzl != null" >
+        #{sjjxgzl,jdbcType=REAL},
+      </if>
+      <if test="sumgzl != null" >
+        #{sumgzl,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xzit.ssm.entity.CurworkloadExample" resultType="java.lang.Integer" >
+    select count(*) from curworkload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update curworkload
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.xq != null" >
+        xq = #{record.xq,jdbcType=INTEGER},
+      </if>
+      <if test="record.kch != null" >
+        kch = #{record.kch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kxh != null" >
+        kxh = #{record.kxh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kcm != null" >
+        kcm = #{record.kcm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.skls != null" >
+        skls = #{record.skls,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lszc != null" >
+        lszc = #{record.lszc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yxid != null" >
+        yxid = #{record.yxid,jdbcType=INTEGER},
+      </if>
+      <if test="record.kcsx != null" >
+        kcsx = #{record.kcsx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bjmc != null" >
+        bjmc = #{record.bjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.krl != null" >
+        krl = #{record.krl,jdbcType=INTEGER},
+      </if>
+      <if test="record.xkrs != null" >
+        xkrs = #{record.xkrs,jdbcType=INTEGER},
+      </if>
+      <if test="record.zxs != null" >
+        zxs = #{record.zxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.mzxs != null" >
+        mzxs = #{record.mzxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.skxs != null" >
+        skxs = #{record.skxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.sjxs != null" >
+        sjxs = #{record.sjxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.syxs != null" >
+        syxs = #{record.syxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.xf != null" >
+        xf = #{record.xf,jdbcType=REAL},
+      </if>
+      <if test="record.kclx != null" >
+        kclx = #{record.kclx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfcxk != null" >
+        sfcxk = #{record.sfcxk,jdbcType=INTEGER},
+      </if>
+      <if test="record.bz != null" >
+        bz = #{record.bz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kclx1 != null" >
+        kclx1 = #{record.kclx1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kclx2 != null" >
+        kclx2 = #{record.kclx2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kclx3 != null" >
+        kclx3 = #{record.kclx3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kcxs != null" >
+        kcxs = #{record.kcxs,jdbcType=REAL},
+      </if>
+      <if test="record.rsxs != null" >
+        rsxs = #{record.rsxs,jdbcType=REAL},
+      </if>
+      <if test="record.lljxgzl != null" >
+        lljxgzl = #{record.lljxgzl,jdbcType=REAL},
+      </if>
+      <if test="record.sjjxgzl != null" >
+        sjjxgzl = #{record.sjjxgzl,jdbcType=REAL},
+      </if>
+        sumgzl = #{record.lljxgzl,jdbcType=REAL}+#{record.sjjxgzl,jdbcType=REAL}
+      <if test="record.cwd != null" >
+        cwd = #{record.cwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jy != null" >
+        jy = #{record.jy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update curworkload
+    set id = #{record.id,jdbcType=INTEGER},
+
+      kch = #{record.kch,jdbcType=VARCHAR},
+      kxh = #{record.kxh,jdbcType=VARCHAR},
+      kcm = #{record.kcm,jdbcType=VARCHAR},
+      skls = #{record.skls,jdbcType=VARCHAR},
+      lszc = #{record.lszc,jdbcType=VARCHAR},
+      yxid = #{record.yxid,jdbcType=INTEGER},
+      kcsx = #{record.kcsx,jdbcType=VARCHAR},
+      bjmc = #{record.bjmc,jdbcType=VARCHAR},
+      krl = #{record.krl,jdbcType=INTEGER},
+      xkrs = #{record.xkrs,jdbcType=INTEGER},
+      zxs = #{record.zxs,jdbcType=INTEGER},
+      mzxs = #{record.mzxs,jdbcType=INTEGER},
+      skxs = #{record.skxs,jdbcType=INTEGER},
+      sjxs = #{record.sjxs,jdbcType=INTEGER},
+      syxs = #{record.syxs,jdbcType=INTEGER},
+      xf = #{record.xf,jdbcType=REAL},
+      kclx = #{record.kclx,jdbcType=VARCHAR},
+      sfcxk = #{record.sfcxk,jdbcType=INTEGER},
+      bz = #{record.bz,jdbcType=VARCHAR},
+      kclx1 = #{record.kclx1,jdbcType=VARCHAR},
+      kclx2 = #{record.kclx2,jdbcType=VARCHAR},
+      kclx3 = #{record.kclx3,jdbcType=VARCHAR},
+      kcxs = #{record.kcxs,jdbcType=REAL},
+      rsxs = #{record.rsxs,jdbcType=REAL},
+      lljxgzl = #{record.lljxgzl,jdbcType=REAL},
+      sjjxgzl = #{record.sjjxgzl,jdbcType=REAL},
+      sumgzl = #{record.lljxgzl,jdbcType=REAL} + #{record.sjjxgzl,jdbcType=REAL},
+      cwd = #{record.cwd,jdbcType=VARCHAR},
+      jy = #{record.jy,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample2" parameterType="map" >
+    update curworkload
+    set id = #{record.id,jdbcType=INTEGER},
+
+    kch = #{record.kch,jdbcType=VARCHAR},
+    kxh = #{record.kxh,jdbcType=VARCHAR},
+    kcm = #{record.kcm,jdbcType=VARCHAR},
+    skls = #{record.skls,jdbcType=VARCHAR},
+    lszc = #{record.lszc,jdbcType=VARCHAR},
+    yxid = #{record.yxid,jdbcType=INTEGER},
+    kcsx = #{record.kcsx,jdbcType=VARCHAR},
+    bjmc = #{record.bjmc,jdbcType=VARCHAR},
+    krl = #{record.krl,jdbcType=INTEGER},
+    xkrs = #{record.xkrs,jdbcType=INTEGER},
+    zxs = #{record.zxs,jdbcType=INTEGER},
+    mzxs = #{record.mzxs,jdbcType=INTEGER},
+    skxs = #{record.skxs,jdbcType=INTEGER},
+    sjxs = #{record.sjxs,jdbcType=INTEGER},
+    syxs = #{record.syxs,jdbcType=INTEGER},
+    xf = #{record.xf,jdbcType=REAL},
+    kclx = #{record.kclx,jdbcType=VARCHAR},
+    sfcxk = #{record.sfcxk,jdbcType=INTEGER},
+    bz = #{record.bz,jdbcType=VARCHAR},
+    kclx1 = #{record.kclx1,jdbcType=VARCHAR},
+    kclx2 = #{record.kclx2,jdbcType=VARCHAR},
+    kclx3 = #{record.kclx3,jdbcType=VARCHAR},
+    kcxs = #{record.kcxs,jdbcType=REAL},
+    rsxs = #{record.rsxs,jdbcType=REAL},
+    lljxgzl = #{record.lljxgzl,jdbcType=REAL},
+    sjjxgzl = #{record.sjjxgzl,jdbcType=REAL},
+    sumgzl = #{record.lljxgzl,jdbcType=REAL} + #{record.sjjxgzl,jdbcType=REAL},
+    cwd = #{record.cwd,jdbcType=VARCHAR},
+    jy = #{record.jy,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xzit.ssm.entity.Curworkload" >
+    update curworkload
+    <set >
+      <if test="xq != null" >
+        xq = #{xq,jdbcType=INTEGER},
+      </if>
+      <if test="kch != null" >
+        kch = #{kch,jdbcType=VARCHAR},
+      </if>
+      <if test="kxh != null" >
+        kxh = #{kxh,jdbcType=VARCHAR},
+      </if>
+      <if test="kcm != null" >
+        kcm = #{kcm,jdbcType=VARCHAR},
+      </if>
+      <if test="skls != null" >
+        skls = #{skls,jdbcType=VARCHAR},
+      </if>
+      <if test="lszc != null" >
+        lszc = #{lszc,jdbcType=VARCHAR},
+      </if>
+      <if test="yxid != null" >
+        yxid = #{yxid,jdbcType=INTEGER},
+      </if>
+      <if test="kcsx != null" >
+        kcsx = #{kcsx,jdbcType=VARCHAR},
+      </if>
+      <if test="bjmc != null" >
+        bjmc = #{bjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="krl != null" >
+        krl = #{krl,jdbcType=INTEGER},
+      </if>
+      <if test="xkrs != null" >
+        xkrs = #{xkrs,jdbcType=INTEGER},
+      </if>
+      <if test="zxs != null" >
+        zxs = #{zxs,jdbcType=INTEGER},
+      </if>
+      <if test="mzxs != null" >
+        mzxs = #{mzxs,jdbcType=INTEGER},
+      </if>
+      <if test="skxs != null" >
+        skxs = #{skxs,jdbcType=INTEGER},
+      </if>
+      <if test="sjxs != null" >
+        sjxs = #{sjxs,jdbcType=INTEGER},
+      </if>
+      <if test="syxs != null" >
+        syxs = #{syxs,jdbcType=INTEGER},
+      </if>
+      <if test="xf != null" >
+        xf = #{xf,jdbcType=REAL},
+      </if>
+      <if test="kclx != null" >
+        kclx = #{kclx,jdbcType=VARCHAR},
+      </if>
+      <if test="sfcxk != null" >
+        sfcxk = #{sfcxk,jdbcType=INTEGER},
+      </if>
+      <if test="bz != null" >
+        bz = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx1 != null" >
+        kclx1 = #{kclx1,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx2 != null" >
+        kclx2 = #{kclx2,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx3 != null" >
+        kclx3 = #{kclx3,jdbcType=VARCHAR},
+      </if>
+      <if test="kcxs != null" >
+        kcxs = #{kcxs,jdbcType=REAL},
+      </if>
+      <if test="rsxs != null" >
+        rsxs = #{rsxs,jdbcType=REAL},
+      </if>
+      <if test="lljxgzl != null" >
+        lljxgzl = #{lljxgzl,jdbcType=REAL},
+      </if>
+      <if test="sjjxgzl != null" >
+        sjjxgzl = #{sjjxgzl,jdbcType=REAL},
+      </if>
+      sumgzl = #{lljxgzl,jdbcType=REAL} + #{sjjxgzl,jdbcType=REAL},
+      <if test="cwd != null" >
+      cwd = #{cwd,jdbcType=VARCHAR},
+      </if>
+      <if test="jy != null" >
+      jy = #{jy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xzit.ssm.entity.Curworkload" >
+    update curworkload
+    set xq = #{xq,jdbcType=INTEGER},
+      kch = #{kch,jdbcType=VARCHAR},
+      kxh = #{kxh,jdbcType=VARCHAR},
+      kcm = #{kcm,jdbcType=VARCHAR},
+      skls = #{skls,jdbcType=VARCHAR},
+      lszc = #{lszc,jdbcType=VARCHAR},
+      yxid = #{yxid,jdbcType=INTEGER},
+      kcsx = #{kcsx,jdbcType=VARCHAR},
+      bjmc = #{bjmc,jdbcType=VARCHAR},
+      krl = #{krl,jdbcType=INTEGER},
+      xkrs = #{xkrs,jdbcType=INTEGER},
+      zxs = #{zxs,jdbcType=INTEGER},
+      mzxs = #{mzxs,jdbcType=INTEGER},
+      skxs = #{skxs,jdbcType=INTEGER},
+      sjxs = #{sjxs,jdbcType=INTEGER},
+      syxs = #{syxs,jdbcType=INTEGER},
+      xf = #{xf,jdbcType=REAL},
+      kclx = #{kclx,jdbcType=VARCHAR},
+      sfcxk = #{sfcxk,jdbcType=INTEGER},
+      bz = #{bz,jdbcType=VARCHAR},
+      kclx1 = #{kclx1,jdbcType=VARCHAR},
+      kclx2 = #{kclx2,jdbcType=VARCHAR},
+      kclx3 = #{kclx3,jdbcType=VARCHAR},
+      kcxs = #{kcxs,jdbcType=REAL},
+      rsxs = #{rsxs,jdbcType=REAL},
+      lljxgzl = #{lljxgzl,jdbcType=REAL},
+      sjjxgzl = #{sjjxgzl,jdbcType=REAL},
+      sumgzl = #{lljxgzl,jdbcType=REAL} + #{sjjxgzl,jdbcType=REAL},
+        cwd = #{cwd,jdbcType=VARCHAR},
+         jy = #{jy,jdbcType=VARCHAR},
+
+  </update>
+  <update id="updatacwd" parameterType="com.xzit.ssm.entity.Curworkload">
+    update curworkload
+    <set >
+
+      <if test="cwd != null" >
+        cwd = #{cwd,jdbcType=VARCHAR},
+      </if>
+
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <!--批量插入-->
+  <!-- 批量插入数据 -->
+  <insert id="insertBatch" parameterType="java.util.List"
+          useGeneratedKeys="true">
+    <selectKey resultType="long" keyProperty="id" order="AFTER">
+      SELECT
+      LAST_INSERT_ID()
+    </selectKey>
+    insert into curworkload (id, xq, kch,  kxh, kcm, skls, lszc, yxid, kcsx, bjmc, krl,
+    xkrs, zxs, mzxs, skxs, sjxs, syxs, xf, kclx, sfcxk, bz, kclx1, kclx2,
+    kclx3, kcxs, rsxs, lljxgzl, sjjxgzl, sumgzl)
+    values
+    <foreach collection="list" item="wk" index="index"
+             separator=",">
+      (
+      #{wk.id,jdbcType=INTEGER}, #{wk.xq,jdbcType=INTEGER}, #{wk.kch,jdbcType=VARCHAR},
+      #{wk.kxh,jdbcType=VARCHAR}, #{wk.kcm,jdbcType=VARCHAR}, #{wk.skls,jdbcType=VARCHAR},
+      #{wk.lszc,jdbcType=VARCHAR},
+      #{wk.yxid,jdbcType=INTEGER}, #{wk.kcsx,jdbcType=VARCHAR}, #{wk.bjmc,jdbcType=VARCHAR},
+      #{wk.krl,jdbcType=INTEGER},
+      #{wk.xkrs,jdbcType=INTEGER}, #{wk.zxs,jdbcType=INTEGER}, #{wk.mzxs,jdbcType=INTEGER},
+      #{wk.skxs,jdbcType=INTEGER},
+      #{wk.sjxs,jdbcType=INTEGER}, #{wk.syxs,jdbcType=INTEGER}, #{wk.xf,jdbcType=REAL},
+      #{wk.kclx,jdbcType=VARCHAR},
+      #{wk.sfcxk,jdbcType=INTEGER}, #{wk.bz,jdbcType=VARCHAR}, #{wk.kclx1,jdbcType=VARCHAR},
+      #{wk.kclx2,jdbcType=VARCHAR},
+      #{wk.kclx3,jdbcType=VARCHAR}, #{wk.kcxs,jdbcType=REAL}, #{wk.rsxs,jdbcType=REAL},
+      #{wk.lljxgzl,jdbcType=REAL},
+      #{wk.sjjxgzl,jdbcType=REAL},
+      #{wk.lljxgzl,jdbcType=REAL}+#{wk.sjjxgzl,jdbcType=REAL}
+      )
+    </foreach>
+  </insert>
+
+  <!--批量更新-->
+  <update id="updateBatch" parameterType="list">
+    update curworkload
+    <trim prefix="set" suffixOverrides=",">
+     <trim prefix="xq =case" suffix="end,">
+        <foreach collection="list" item="wk" index="index">
+          <if test="wk.xq!=null">
+            when id=#{wk.id} then #{wk.xq}
+          </if>
+        </foreach>
+      </trim>
+
+     <trim prefix="kch =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.kch!=null">
+          when id=#{wk.id} then #{wk.kch}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="kxh =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.kxh!=null">
+          when id=#{wk.id} then #{wk.kxh}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="kcm =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.kcm!=null">
+          when id=#{wk.id} then #{wk.kcm}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="skls =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.skls!=null">
+          when id=#{wk.id} then #{wk.skls}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="lszc =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.lszc!=null">
+          when id=#{wk.id} then #{wk.lszc}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="yxid =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.yxid!=null">
+          when id=#{wk.id} then #{wk.yxid}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="kcsx =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.kcsx!=null">
+          when id=#{wk.id} then #{wk.kcsx}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="bjmc =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.bjmc!=null">
+          when id=#{wk.id} then #{wk.bjmc}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="krl =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.krl!=null">
+          when id=#{wk.id} then #{wk.krl}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="xkrs =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.xkrs!=null">
+          when id=#{wk.id} then #{wk.xkrs}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="zxs =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.zxs!=null">
+          when id=#{wk.id} then #{wk.zxs}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="mzxs =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.mzxs!=null">
+          when id=#{wk.id} then #{wk.mzxs}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="skxs =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.skxs!=null">
+          when id=#{wk.id} then #{wk.skxs}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="sjxs =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.sjxs!=null">
+          when id=#{wk.id} then #{wk.sjxs}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="syxs =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.syxs!=null">
+          when id=#{wk.id} then #{wk.syxs}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="xf =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.xf!=null">
+          when id=#{wk.id} then #{wk.xf}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="kclx =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.kclx!=null">
+          when id=#{wk.id} then #{wk.kclx}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="sfcxk =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.sfcxk!=null">
+          when id=#{wk.id} then #{wk.sfcxk}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="bz =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.bz!=null">
+          when id=#{wk.id} then #{wk.bz}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="kclx1 =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.kclx1!=null">
+          when id=#{wk.id} then #{wk.kclx1}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="kclx2 =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.kclx2!=null">
+          when id=#{wk.id} then #{wk.kclx2}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="kclx3 =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.kclx3!=null">
+          when id=#{wk.id} then #{wk.kclx3}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="kcxs =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.kcxs!=null">
+          when id=#{wk.id} then #{wk.kcxs}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="rsxs =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.rsxs!=null">
+          when id=#{wk.id} then #{wk.rsxs}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="lljxgzl =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.lljxgzl!=null">
+          when id=#{wk.id} then #{wk.lljxgzl}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="sjjxgzl =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+        <if test="wk.sjjxgzl!=null">
+          when id=#{wk.id} then #{wk.sjjxgzl}
+        </if>
+      </foreach>
+    </trim>
+
+     <trim prefix="sumgzl =case" suffix="end,">
+      <foreach collection="list" item="wk" index="index">
+          when id=#{wk.id} then #{wk.lljxgzl}+#{wk.sjjxgzl}
+      </foreach>
+    </trim>
+    </trim>
+    where
+    <foreach collection="list" separator="or" item="wk" index="index" >
+      id=#{wk.id}
+    </foreach>
+  </update>
+
+  <!--批量更新每门课成的实验工作量-->
+  <!--批量更新-->
+  <update id="updateBatchSJgzl" parameterType="list">
+    update curworkload
+    <trim prefix="set" suffixOverrides=",">
+      <!--实验工作量-->
+      <trim prefix="sjjxgzl =case" suffix="end,">
+        <foreach collection="list" item="wk" index="index">
+          <!--SyworkloadMapper id=sygzltotal的查询中，将syworkload表中实验工作量累计的结果放在sumgzl字段中，
+              更新到curworkload表中是将wk对象的sumgzl字段的值更新到sjjxgzl字段上
+              这样做的原因是因为集中实践课程的工作量导入时就已经计算过的。只要将实验课的工作量更新就可。
+          -->
+          <choose>
+            <when test="wk.sumgzl!=null and wk.sumgzl>0">
+               when xq=#{wk.xq} and kch=#{wk.kch} and kxh = #{wk.kxh} then #{wk.sumgzl}
+            </when>
+            <otherwise>
+               when xq=#{wk.xq} and kch=#{wk.kch} and kxh = #{wk.kxh} then sjjxgzl
+            </otherwise>
+          </choose>
+        </foreach>
+      </trim>
+      <!--总的工作量-->
+      <trim prefix="sumgzl =case" suffix="end,">
+        <foreach collection="list" item="wk" index="index">
+          <choose>
+             <when test="wk.sjjxgzl!=null and wk.sjjxgzl>0">
+                when xq=#{wk.xq} and kch=#{wk.kch} and kxh = #{wk.kxh} then #{wk.sjjxgzl} + lljxgzl
+             </when>
+            <when test="wk.sumgzl!=null and wk.sumgzl>0">
+                when xq=#{wk.xq} and kch=#{wk.kch} and kxh = #{wk.kxh} then #{wk.sumgzl} + lljxgzl
+            </when>
+            <otherwise>
+               when xq=#{wk.xq} and kch=#{wk.kch} and kxh = #{wk.kxh} then lljxgzl+sjjxgzl
+            </otherwise>
+          </choose>
+        </foreach>
+      </trim>
+    </trim>
+    <!--
+    where (xq,kch,kxh) in
+    <foreach collection="list" separator="," item="wk" index="index" open="(" close=")">
+      (xq=#{wk.xq},kch=#{wk.kch},kxh = #{wk.kxh})
+    </foreach>
+    -->
+  </update>
+
+  <!--根据此表唯一索引进行查询-->
+  <select id="selectByUniqueKey" resultMap="RelationResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from curworkload
+    where xq = #{xq,jdbcType=INTEGER} and
+          kch = #{kch,jdbcType=VARCHAR} and
+          kxh = #{kxh,jdbcType=VARCHAR}
+  </select>
+
+  <!--按部门所有学期的统计-->
+  <select id="gzltotalByCollege" resultType="com.xzit.ssm.vo.GzlVO">
+      select c.collid,c.nick, gzltbl.*,(gzltbl.kcsumgzl+gzltbl.othergzl) totalgzl from college  c
+      left join(
+      select s.*,convert(COALESCE(t.othergzl,0),decimal(10,2))  othergzl  from
+      (select yxid, convert(COALESCE(sum(lljxgzl),0),decimal(10,2)) lljxgzl, convert(COALESCE(sum(sjjxgzl),0),decimal(10,2)) sjjxgzl,
+      convert(COALESCE(sum(sumgzl),0),decimal(10,2)) kcsumgzl from curworkload group by yxid) s
+      left join
+      (select xyid,convert(COALESCE(sum(gzl),0),decimal(10,2)) othergzl from otherworkload group by xyid) t
+      on s.yxid=t.xyid
+      ) gzltbl
+      on gzltbl.yxid=c.collid
+      order by c.collid
+  </select>
+
+  <!--某部门分学期统计工作量-->
+  <select id="termgzltotalByCollege" resultType="com.xzit.ssm.vo.TermGzlVo">
+    select st.*,o.othergzl from
+    (select t.termid,t.termname,s.* from term t
+    left join(select xq, convert(COALESCE(sum(lljxgzl),0),decimal(10,2)) lljxgzl,
+                 convert(COALESCE(sum(sjjxgzl),0),decimal(10,2)) sjjxgzl,
+                 convert(COALESCE(sum(sumgzl),0),decimal(10,2)) kcsumgzl
+    from curworkload where yxid=#{collid} group by xq) s on t.termid=s.xq)st
+    left join(select xq,convert(COALESCE(sum(gzl),0),decimal(10,2)) othergzl
+    from otherworkload where xyid=#{collid} group by xq) o on st.termid=o.xq
+  </select>
+
+  <select id="twoTermgzldetails" resultMap="RelationResultMap">
+      select * from curworkload where yxid=#{collid} order by xq
+  </select>
+
+</mapper>

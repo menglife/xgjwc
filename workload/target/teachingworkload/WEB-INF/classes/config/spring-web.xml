@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!-- 配置SpringMVC -->
+    <!-- 1.开启SpringMVC注解模式 -->
+
+    <mvc:annotation-driven>
+        <!--注入的message-converters优先级高于默认注入的json转换器。-->
+        <mvc:message-converters register-defaults="true">
+            <!-- 将StringHttpMessageConverter的默认编码设为UTF-8 -->
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <constructor-arg value="UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 2.静态资源默认servlet配置
+    (1)加入对静态资源的处理：js,gif,png
+    (2)允许使用"/"做整体映射
+    -->
+    <mvc:default-servlet-handler/>
+    <!-- 由于web.xml中设置是：由SpringMVC拦截所有请求,于是在读取静态资源文件的时候就会受到影响(说白了就是读不到) -->
+    <!-- 经过下面的配置，该标签的作用就是：所有页面中引用"/statics/**"的资源，都会从"/statics/"里面进行查找 -->
+    <!-- 配置哪些是静态资源，缺省Servlet 直接返回
+    <mvc:resources location="/statics/" mapping="/statics/**"/>
+    -->
+
+    <!-- 3.配置jsp 显示ViewResolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!-- 4.扫描web相关的bean -->
+    <context:component-scan base-package="com.xzit.ssm.controller" />
+
+    <!--5.Spring MVC 文件上传-->
+    <!-- 配置文件上传类型解析器 multipartResolver-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 默认编码 -->
+        <!-- defaultEncoding="UTF-8" 是请求的编码格式，默认为iso-8859-1 -->
+        <property name="defaultEncoding" value="UTF-8"/>
+        <!-- 文件大小最大值 上传文件大小限制为10M，10*1024*1024
+        <property name="maxUploadSize" value="10485760"/>
+        -->
+    </bean>
+
+    <bean id="exceptionResolver"
+          class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+        <property name="exceptionMappings">
+            <props>
+                <!-- 遇到MaxUploadSizeExceededException异常时，自动跳转到/WEB-INF/view/errors/500.jsp页面 -->
+                <prop key="org.springframework.web.multipart.MaxUploadSizeExceededException">redirect:/errors/maxsize.jsp</prop>
+                <!-- 处理其它异常(包括Controller抛出的) -->
+                <prop key="java.lang.Throwable">redirect:/errors/500.jsp</prop>
+            </props>
+        </property>
+        <property name="statusCodes">
+            <props>
+                <prop key="errors/500">500</prop>
+                <prop key="errors/404">404</prop>
+            </props>
+        </property>
+    </bean>
+
+    <!--引入其他的xml文件-->
+    <import resource="classpath:/config/dao/spring-dao.xml"/>
+    <import resource="classpath:/config/service/spring-service.xml"/>
+
+</beans>

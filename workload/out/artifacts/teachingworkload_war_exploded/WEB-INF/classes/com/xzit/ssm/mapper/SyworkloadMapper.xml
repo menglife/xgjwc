@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzit.ssm.mapper.SyworkloadMapper" >
+  <resultMap id="BaseResultMap" type="com.xzit.ssm.entity.Syworkload" >
+    <id column="syid" property="syid" jdbcType="INTEGER" />
+    <result column="xyid" property="xyid" jdbcType="INTEGER" />
+    <result column="xq" property="xq" jdbcType="INTEGER" />
+
+    <result column="kch" property="kch" jdbcType="VARCHAR" />
+    <result column="kxh" property="kxh" jdbcType="VARCHAR" />
+    <result column="syzxs" property="syzxs" jdbcType="INTEGER" />
+    <result column="fpcx" property="fpcx" jdbcType="INTEGER" />
+    <result column="fpxs" property="fpxs" jdbcType="INTEGER" />
+    <result column="fpgzl" property="fpgzl" jdbcType="REAL" />
+    <result column="cwd" jdbcType="VARCHAR" property="cwd" />
+    <result column="jy" jdbcType="VARCHAR" property="jy" />
+    <association property="term"
+                 javaType="com.xzit.ssm.entity.Term"
+                 select="com.xzit.ssm.mapper.TermMapper.selectByPrimaryKey"
+                 column="xq"/>
+
+    <!--&lt;!&ndash;关联学院查询:多对一关联查询&ndash;&gt;-->
+    <!--<association property="college"-->
+                 <!--javaType="com.xzit.ssm.entity.College"-->
+                 <!--select="com.xzit.ssm.mapper.CollegeMapper.selectByPrimaryKey"-->
+                 <!--column="xyid"/>-->
+  <!--</resultMap>-->
+  <!--&lt;!&ndash;关联查询&ndash;&gt;-->
+  <!--<resultMap id="RelationResultMap" type="com.xzit.ssm.entity.Syworkload" extends="BaseResultMap">-->
+    <!--&lt;!&ndash;关联学期查询:多对一关联查询&ndash;&gt;-->
+
+
+
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    syid, xyid, xq, kch, kxh, syzxs, fpcx, fpxs, fpgzl, cwd, jy
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xzit.ssm.entity.SyworkloadExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from syworkload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from syworkload
+    where syid = #{syid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from syworkload
+    where syid = #{syid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xzit.ssm.entity.SyworkloadExample" >
+    delete from syworkload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xzit.ssm.entity.Syworkload" >
+    insert into syworkload (syid, xyid, xq,
+    kch, kxh, syzxs, fpcx,
+    fpxs, fpgzl)
+    values (#{syid,jdbcType=INTEGER}, #{xyid,jdbcType=INTEGER}, #{xq,jdbcType=INTEGER},
+    #{kch,jdbcType=VARCHAR}, #{kxh,jdbcType=VARCHAR}, #{syzxs,jdbcType=INTEGER}, #{fpcx,jdbcType=INTEGER},
+    #{fpxs,jdbcType=INTEGER}, #{fpgzl,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.xzit.ssm.entity.Syworkload" >
+    insert into syworkload
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="syid != null" >
+        syid,
+      </if>
+      <if test="xyid != null" >
+        xyid,
+      </if>
+      <if test="xq != null" >
+        xq,
+      </if>
+      <if test="kch != null" >
+        kch,
+      </if>
+      <if test="kxh != null" >
+        kxh,
+      </if>
+      <if test="syzxs != null" >
+        syzxs,
+      </if>
+      <if test="fpcx != null" >
+        fpcx,
+      </if>
+      <if test="fpxs != null" >
+        fpxs,
+      </if>
+      <if test="fpgzl != null" >
+        fpgzl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="syid != null" >
+        #{syid,jdbcType=INTEGER},
+      </if>
+      <if test="xyid != null" >
+        #{xyid,jdbcType=INTEGER},
+      </if>
+      <if test="xq != null" >
+        #{xq,jdbcType=INTEGER},
+      </if>
+      <if test="kch != null" >
+        #{kch,jdbcType=VARCHAR},
+      </if>
+      <if test="kxh != null" >
+        #{kxh,jdbcType=VARCHAR},
+      </if>
+      <if test="syzxs != null" >
+        #{syzxs,jdbcType=INTEGER},
+      </if>
+      <if test="fpcx != null" >
+        #{fpcx,jdbcType=INTEGER},
+      </if>
+      <if test="fpxs != null" >
+        #{fpxs,jdbcType=INTEGER},
+      </if>
+      <if test="fpgzl != null" >
+        #{fpgzl,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xzit.ssm.entity.SyworkloadExample" resultType="java.lang.Integer" >
+    select count(*) from syworkload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update syworkload
+    <set >
+      <if test="record.syid != null" >
+        syid = #{record.syid,jdbcType=INTEGER},
+      </if>
+      <if test="record.xyid != null" >
+        xyid = #{record.xyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.xq != null" >
+        xq = #{record.xq,jdbcType=INTEGER},
+      </if>
+      <if test="record.kch != null" >
+        kch = #{record.kch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kxh != null" >
+        kxh = #{record.kxh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.syzxs != null" >
+        syzxs = #{record.syzxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.fpcx != null" >
+        fpcx = #{record.fpcx,jdbcType=INTEGER},
+      </if>
+      <if test="record.fpxs != null" >
+        fpxs = #{record.fpxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.fpgzl != null" >
+        fpgzl = #{record.fpgzl,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update syworkload
+    set syid = #{record.syid,jdbcType=INTEGER},
+    xyid = #{record.xyid,jdbcType=INTEGER},
+    xq = #{record.xq,jdbcType=INTEGER},
+    kch = #{record.kch,jdbcType=VARCHAR},
+    kxh = #{record.kxh,jdbcType=VARCHAR},
+    syzxs = #{record.syzxs,jdbcType=INTEGER},
+    fpcx = #{record.fpcx,jdbcType=INTEGER},
+    fpxs = #{record.fpxs,jdbcType=INTEGER},
+    fpgzl = #{record.fpgzl,jdbcType=REAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xzit.ssm.entity.Syworkload" >
+    update syworkload
+    <set >
+      <if test="xyid != null" >
+        xyid = #{xyid,jdbcType=INTEGER},
+      </if>
+      <if test="xq != null" >
+        xq = #{xq,jdbcType=INTEGER},
+      </if>
+      <if test="kch != null" >
+        kch = #{kch,jdbcType=VARCHAR},
+      </if>
+      <if test="kxh != null" >
+        kxh = #{kxh,jdbcType=VARCHAR},
+      </if>
+      <if test="syzxs != null" >
+        syzxs = #{syzxs,jdbcType=INTEGER},
+      </if>
+      <if test="fpcx != null" >
+        fpcx = #{fpcx,jdbcType=INTEGER},
+      </if>
+      <if test="fpxs != null" >
+        fpxs = #{fpxs,jdbcType=INTEGER},
+      </if>
+      <if test="fpgzl != null" >
+        fpgzl = #{fpgzl,jdbcType=REAL},
+      </if>
+    </set>
+    where syid = #{syid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.xzit.ssm.entity.Syworkload" >
+    update syworkload
+    set xyid = #{xyid,jdbcType=INTEGER},
+    xq = #{xq,jdbcType=INTEGER},
+    kch = #{kch,jdbcType=VARCHAR},
+    kxh = #{kxh,jdbcType=VARCHAR},
+    syzxs = #{syzxs,jdbcType=INTEGER},
+    fpcx = #{fpcx,jdbcType=INTEGER},
+    fpxs = #{fpxs,jdbcType=INTEGER},
+    fpgzl = #{fpgzl,jdbcType=REAL}
+    cwd=#{cwd,jdbcType=VARCHAR},
+    jy=#{jy,jdbcType=VARCHAR}
+    where syid = #{syid,jdbcType=INTEGER}
+  </update>
+
+
+  <!--批量删除-->
+  <delete id="deleteBatchByTermAndKchAndKxh" parameterType="java.util.List">
+      delete  from syworkload where (xq,kch,kxh) in
+      <foreach item="item" index="index" collection="list" separator="," open="(" close=")">
+         (#{item.xq},#{item.kch},#{item.kxh})
+      </foreach>
+  </delete>
+
+  <!--批量添加记录-->
+  <insert id="insertBatch" parameterType="java.util.List"
+          useGeneratedKeys="true">
+    <selectKey resultType="long" keyProperty="id" order="AFTER">
+      SELECT
+      LAST_INSERT_ID()
+    </selectKey>
+    insert into syworkload (syid,xq, kch,kxh, syzxs, fpcx, fpxs,fpgzl,xyid)
+    values
+    <foreach collection="list" item="wk" index="index"
+             separator=",">
+      (
+      #{wk.syid,jdbcType=INTEGER}, #{wk.xq,jdbcType=INTEGER},    #{wk.kch,jdbcType=VARCHAR},
+      #{wk.kxh,jdbcType=VARCHAR},  #{wk.syzxs,jdbcType=INTEGER}, #{wk.fpcx,jdbcType=INTEGER},
+      #{wk.fpxs,jdbcType=INTEGER}, #{wk.fpgzl,jdbcType=REAL},#{wk.xyid,jdbcType=INTEGER}
+      )
+    </foreach>
+  </insert>
+  <!--按学院id和学期id查询,返回SyworkloadVO对象-->
+  <select id="selectByTermidAndCollegeId" resultType="com.xzit.ssm.vo.SyworkloadVO">
+       select s.syid,s.xyid,s.xq,s.kch,s.kxh,s.syzxs,s.fpcx,s.fpxs,s.fpgzl,c.kcm,c.skls,
+       c.bjmc,c.xkrs,c.zxs,c.skxs,(c.sjxs+c.syxs) as syxs,x.name,t.termname
+       from syworkload s,curworkload c,college x,term t
+       where s.xq=c.xq and s.kch=c.kch and s.kxh=c.kxh and x.collid=s.xyid and s.xq=t.termid
+       <if test="termid!=null and termid>0">
+           and s.xq = #{termid,jdbcType=INTEGER}
+       </if>
+       <if test="collid!=null and collid>0">
+           and s.xyid = #{collid,jdbcType=INTEGER}
+       </if>
+  </select>
+
+  <!--按学院id、学期id查询、课程号、课序号,返回SyworkloadVO对象-->
+  <select id="selectByTermidAndCollegeIdAndKchAndKxh" resultType="com.xzit.ssm.vo.SyworkloadVO">
+    select s.syid,s.xyid,s.xq,s.kch,s.kxh,s.syzxs,s.fpcx,s.fpxs,s.fpgzl,c.kcm,c.skls,
+    c.bjmc,c.xkrs,c.zxs,c.skxs,(c.sjxs+c.syxs) as syxs,x.name,t.termname
+    from syworkload s,curworkload c,college x,term t
+    where s.xq=c.xq and s.kch=c.kch and s.kxh=c.kxh and x.collid=s.xyid and s.xq=t.termid
+    <if test="termid!=null and termid>0">
+      and s.xq = #{termid,jdbcType=INTEGER}
+    </if>
+    <if test="collid!=null and collid>0">
+      and s.xyid = #{collid,jdbcType=INTEGER}
+    </if>
+    <if test="kch!=null and kch!=''">
+      and s.kch = #{kch}
+    </if>
+    <if test="kxh!=null and kxh!=''">
+      and s.kxh = #{kxh}
+    </if>
+  </select>
+  <!--查询哪些课程是单批次实验但是没有通过Excel导入的课程信息-->
+  <select id="findCurworkloadWithExpNoImport" resultType="com.xzit.ssm.entity.Curworkload">
+      select c.* from curworkload c where c.sjxs+c.syxs>0 and  (xq,kch,kxh) not in
+      (select distinct xq,kch,kxh from syworkload order by xq,kch,kxh)
+  </select>
+
+  <!--实验工作量统计结果（按xq,kch,kxh汇总后的结果，返回类型为Curworkload类型）-->
+  <select id="sygzltotal" resultType="com.xzit.ssm.entity.Curworkload">
+      select c.xq,c.kch,c.kxh,c.lljxgzl,c.sjjxgzl,s.sumgzl from  curworkload c
+      left join (select xq,kch,kxh,convert(sum(fpgzl),decimal(10,2)) sumgzl from syworkload group by xq,kch,kxh) s
+      on c.xq=s.xq and c.kch=s.kch and c.kxh=s.kxh
+  </select>
+
+</mapper>

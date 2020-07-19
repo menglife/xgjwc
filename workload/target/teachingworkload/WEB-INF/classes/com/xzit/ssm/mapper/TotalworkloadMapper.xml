@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzit.ssm.mapper.TotalworkloadMapper" >
+  <resultMap id="BaseResultMap" type="com.xzit.ssm.entity.Totalworkload" >
+    <id column="gzlid" property="gzlid" jdbcType="INTEGER" />
+    <result column="xyid" property="xyid" jdbcType="INTEGER" />
+    <result column="xq" property="xq" jdbcType="INTEGER" />
+    <result column="llgzl" property="llgzl" jdbcType="REAL" />
+    <result column="sjgzl" property="sjgzl" jdbcType="REAL" />
+    <result column="othergzl" property="othergzl" jdbcType="REAL" />
+    <result column="gzlsum" property="gzlsum" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    gzlid, xyid, xq, llgzl, sjgzl, othergzl, gzlsum
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.xzit.ssm.entity.TotalworkloadExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from totalworkload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from totalworkload
+    where gzlid = #{gzlid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from totalworkload
+    where gzlid = #{gzlid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.xzit.ssm.entity.TotalworkloadExample" >
+    delete from totalworkload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.xzit.ssm.entity.Totalworkload" >
+    insert into totalworkload (gzlid, xyid, xq, 
+      llgzl, sjgzl, othergzl, gzlsum
+      )
+    values (#{gzlid,jdbcType=INTEGER}, #{xyid,jdbcType=INTEGER}, #{xq,jdbcType=INTEGER}, 
+      #{llgzl,jdbcType=REAL}, #{sjgzl,jdbcType=REAL}, #{othergzl,jdbcType=REAL}, #{gzlsum,jdbcType=REAL}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.xzit.ssm.entity.Totalworkload" >
+    insert into totalworkload
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="gzlid != null" >
+        gzlid,
+      </if>
+      <if test="xyid != null" >
+        xyid,
+      </if>
+      <if test="xq != null" >
+        xq,
+      </if>
+      <if test="llgzl != null" >
+        llgzl,
+      </if>
+      <if test="sjgzl != null" >
+        sjgzl,
+      </if>
+      <if test="othergzl != null" >
+        othergzl,
+      </if>
+      <if test="gzlsum != null" >
+        gzlsum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="gzlid != null" >
+        #{gzlid,jdbcType=INTEGER},
+      </if>
+      <if test="xyid != null" >
+        #{xyid,jdbcType=INTEGER},
+      </if>
+      <if test="xq != null" >
+        #{xq,jdbcType=INTEGER},
+      </if>
+      <if test="llgzl != null" >
+        #{llgzl,jdbcType=REAL},
+      </if>
+      <if test="sjgzl != null" >
+        #{sjgzl,jdbcType=REAL},
+      </if>
+      <if test="othergzl != null" >
+        #{othergzl,jdbcType=REAL},
+      </if>
+      <if test="gzlsum != null" >
+        #{gzlsum,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.xzit.ssm.entity.TotalworkloadExample" resultType="java.lang.Integer" >
+    select count(*) from totalworkload
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update totalworkload
+    <set >
+      <if test="record.gzlid != null" >
+        gzlid = #{record.gzlid,jdbcType=INTEGER},
+      </if>
+      <if test="record.xyid != null" >
+        xyid = #{record.xyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.xq != null" >
+        xq = #{record.xq,jdbcType=INTEGER},
+      </if>
+      <if test="record.llgzl != null" >
+        llgzl = #{record.llgzl,jdbcType=REAL},
+      </if>
+      <if test="record.sjgzl != null" >
+        sjgzl = #{record.sjgzl,jdbcType=REAL},
+      </if>
+      <if test="record.othergzl != null" >
+        othergzl = #{record.othergzl,jdbcType=REAL},
+      </if>
+      <if test="record.gzlsum != null" >
+        gzlsum = #{record.gzlsum,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update totalworkload
+    set gzlid = #{record.gzlid,jdbcType=INTEGER},
+      xyid = #{record.xyid,jdbcType=INTEGER},
+      xq = #{record.xq,jdbcType=INTEGER},
+      llgzl = #{record.llgzl,jdbcType=REAL},
+      sjgzl = #{record.sjgzl,jdbcType=REAL},
+      othergzl = #{record.othergzl,jdbcType=REAL},
+      gzlsum = #{record.gzlsum,jdbcType=REAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.xzit.ssm.entity.Totalworkload" >
+    update totalworkload
+    <set >
+      <if test="xyid != null" >
+        xyid = #{xyid,jdbcType=INTEGER},
+      </if>
+      <if test="xq != null" >
+        xq = #{xq,jdbcType=INTEGER},
+      </if>
+      <if test="llgzl != null" >
+        llgzl = #{llgzl,jdbcType=REAL},
+      </if>
+      <if test="sjgzl != null" >
+        sjgzl = #{sjgzl,jdbcType=REAL},
+      </if>
+      <if test="othergzl != null" >
+        othergzl = #{othergzl,jdbcType=REAL},
+      </if>
+      <if test="gzlsum != null" >
+        gzlsum = #{gzlsum,jdbcType=REAL},
+      </if>
+    </set>
+    where gzlid = #{gzlid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.xzit.ssm.entity.Totalworkload" >
+    update totalworkload
+    set xyid = #{xyid,jdbcType=INTEGER},
+      xq = #{xq,jdbcType=INTEGER},
+      llgzl = #{llgzl,jdbcType=REAL},
+      sjgzl = #{sjgzl,jdbcType=REAL},
+      othergzl = #{othergzl,jdbcType=REAL},
+      gzlsum = #{gzlsum,jdbcType=REAL}
+    where gzlid = #{gzlid,jdbcType=INTEGER}
+  </update>
+</mapper>

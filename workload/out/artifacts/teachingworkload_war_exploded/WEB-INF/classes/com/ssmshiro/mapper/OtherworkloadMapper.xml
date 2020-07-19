@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssmshiro.dao.OtherworkloadMapper">
+  <resultMap id="BaseResultMap" type="com.ssmshiro.entity.Otherworkload">
+    <id column="otherid" jdbcType="INTEGER" property="otherid" />
+    <result column="xq" jdbcType="INTEGER" property="xq" />
+    <result column="xyid" jdbcType="INTEGER" property="xyid" />
+    <result column="gzlmc" jdbcType="VARCHAR" property="gzlmc" />
+    <result column="gzl" jdbcType="REAL" property="gzl" />
+    <result column="brief" jdbcType="VARCHAR" property="brief" />
+    <result column="cwd" jdbcType="VARCHAR" property="cwd" />
+    <result column="jy" jdbcType="VARCHAR" property="jy" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    otherid, xq, xyid, gzlmc, gzl, brief, cwd, jy
+  </sql>
+  <select id="selectByExample" parameterType="com.ssmshiro.entity.OtherworkloadExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from otherworkload
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from otherworkload
+    where otherid = #{otherid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from otherworkload
+    where otherid = #{otherid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssmshiro.entity.OtherworkloadExample">
+    delete from otherworkload
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssmshiro.entity.Otherworkload">
+    insert into otherworkload (otherid, xq, xyid, 
+      gzlmc, gzl, brief, cwd, 
+      jy)
+    values (#{otherid,jdbcType=INTEGER}, #{xq,jdbcType=INTEGER}, #{xyid,jdbcType=INTEGER}, 
+      #{gzlmc,jdbcType=VARCHAR}, #{gzl,jdbcType=REAL}, #{brief,jdbcType=VARCHAR}, #{cwd,jdbcType=VARCHAR}, 
+      #{jy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssmshiro.entity.Otherworkload">
+    insert into otherworkload
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="otherid != null">
+        otherid,
+      </if>
+      <if test="xq != null">
+        xq,
+      </if>
+      <if test="xyid != null">
+        xyid,
+      </if>
+      <if test="gzlmc != null">
+        gzlmc,
+      </if>
+      <if test="gzl != null">
+        gzl,
+      </if>
+      <if test="brief != null">
+        brief,
+      </if>
+      <if test="cwd != null">
+        cwd,
+      </if>
+      <if test="jy != null">
+        jy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="otherid != null">
+        #{otherid,jdbcType=INTEGER},
+      </if>
+      <if test="xq != null">
+        #{xq,jdbcType=INTEGER},
+      </if>
+      <if test="xyid != null">
+        #{xyid,jdbcType=INTEGER},
+      </if>
+      <if test="gzlmc != null">
+        #{gzlmc,jdbcType=VARCHAR},
+      </if>
+      <if test="gzl != null">
+        #{gzl,jdbcType=REAL},
+      </if>
+      <if test="brief != null">
+        #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="cwd != null">
+        #{cwd,jdbcType=VARCHAR},
+      </if>
+      <if test="jy != null">
+        #{jy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssmshiro.entity.OtherworkloadExample" resultType="java.lang.Long">
+    select count(*) from otherworkload
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update otherworkload
+    <set>
+      <if test="record.otherid != null">
+        otherid = #{record.otherid,jdbcType=INTEGER},
+      </if>
+      <if test="record.xq != null">
+        xq = #{record.xq,jdbcType=INTEGER},
+      </if>
+      <if test="record.xyid != null">
+        xyid = #{record.xyid,jdbcType=INTEGER},
+      </if>
+      <if test="record.gzlmc != null">
+        gzlmc = #{record.gzlmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gzl != null">
+        gzl = #{record.gzl,jdbcType=REAL},
+      </if>
+      <if test="record.brief != null">
+        brief = #{record.brief,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cwd != null">
+        cwd = #{record.cwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jy != null">
+        jy = #{record.jy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update otherworkload
+    set otherid = #{record.otherid,jdbcType=INTEGER},
+      xq = #{record.xq,jdbcType=INTEGER},
+      xyid = #{record.xyid,jdbcType=INTEGER},
+      gzlmc = #{record.gzlmc,jdbcType=VARCHAR},
+      gzl = #{record.gzl,jdbcType=REAL},
+      brief = #{record.brief,jdbcType=VARCHAR},
+      cwd = #{record.cwd,jdbcType=VARCHAR},
+      jy = #{record.jy,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssmshiro.entity.Otherworkload">
+    update otherworkload
+    <set>
+      <if test="xq != null">
+        xq = #{xq,jdbcType=INTEGER},
+      </if>
+      <if test="xyid != null">
+        xyid = #{xyid,jdbcType=INTEGER},
+      </if>
+      <if test="gzlmc != null">
+        gzlmc = #{gzlmc,jdbcType=VARCHAR},
+      </if>
+      <if test="gzl != null">
+        gzl = #{gzl,jdbcType=REAL},
+      </if>
+      <if test="brief != null">
+        brief = #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="cwd != null">
+        cwd = #{cwd,jdbcType=VARCHAR},
+      </if>
+      <if test="jy != null">
+        jy = #{jy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where otherid = #{otherid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssmshiro.entity.Otherworkload">
+    update otherworkload
+    set xq = #{xq,jdbcType=INTEGER},
+      xyid = #{xyid,jdbcType=INTEGER},
+      gzlmc = #{gzlmc,jdbcType=VARCHAR},
+      gzl = #{gzl,jdbcType=REAL},
+      brief = #{brief,jdbcType=VARCHAR},
+      cwd = #{cwd,jdbcType=VARCHAR},
+      jy = #{jy,jdbcType=VARCHAR}
+    where otherid = #{otherid,jdbcType=INTEGER}
+  </update>
+</mapper>

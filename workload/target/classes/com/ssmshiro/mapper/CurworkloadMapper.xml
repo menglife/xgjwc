@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssmshiro.dao.CurworkloadMapper">
+  <resultMap id="BaseResultMap" type="com.ssmshiro.entity.Curworkload">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="xq" jdbcType="INTEGER" property="xq" />
+    <result column="kch" jdbcType="VARCHAR" property="kch" />
+    <result column="kxh" jdbcType="VARCHAR" property="kxh" />
+    <result column="kcm" jdbcType="VARCHAR" property="kcm" />
+    <result column="skls" jdbcType="VARCHAR" property="skls" />
+    <result column="lszc" jdbcType="VARCHAR" property="lszc" />
+    <result column="yxid" jdbcType="INTEGER" property="yxid" />
+    <result column="kcsx" jdbcType="VARCHAR" property="kcsx" />
+    <result column="bjmc" jdbcType="VARCHAR" property="bjmc" />
+    <result column="krl" jdbcType="INTEGER" property="krl" />
+    <result column="xkrs" jdbcType="INTEGER" property="xkrs" />
+    <result column="zxs" jdbcType="INTEGER" property="zxs" />
+    <result column="mzxs" jdbcType="INTEGER" property="mzxs" />
+    <result column="skxs" jdbcType="INTEGER" property="skxs" />
+    <result column="sjxs" jdbcType="INTEGER" property="sjxs" />
+    <result column="syxs" jdbcType="INTEGER" property="syxs" />
+    <result column="xf" jdbcType="REAL" property="xf" />
+    <result column="kclx" jdbcType="VARCHAR" property="kclx" />
+    <result column="sfcxk" jdbcType="INTEGER" property="sfcxk" />
+    <result column="bz" jdbcType="VARCHAR" property="bz" />
+    <result column="kclx1" jdbcType="VARCHAR" property="kclx1" />
+    <result column="kclx2" jdbcType="VARCHAR" property="kclx2" />
+    <result column="kclx3" jdbcType="VARCHAR" property="kclx3" />
+    <result column="kcxs" jdbcType="REAL" property="kcxs" />
+    <result column="rsxs" jdbcType="REAL" property="rsxs" />
+    <result column="lljxgzl" jdbcType="REAL" property="lljxgzl" />
+    <result column="sjjxgzl" jdbcType="REAL" property="sjjxgzl" />
+    <result column="sumgzl" jdbcType="REAL" property="sumgzl" />
+    <result column="cwd" jdbcType="VARCHAR" property="cwd" />
+    <result column="jy" jdbcType="VARCHAR" property="jy" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, xq, kch, kxh, kcm, skls, lszc, yxid, kcsx, bjmc, krl, xkrs, zxs, mzxs, skxs, 
+    sjxs, syxs, xf, kclx, sfcxk, bz, kclx1, kclx2, kclx3, kcxs, rsxs, lljxgzl, sjjxgzl, 
+    sumgzl, cwd, jy
+  </sql>
+  <select id="selectByExample" parameterType="com.ssmshiro.entity.CurworkloadExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from curworkload
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from curworkload
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from curworkload
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.ssmshiro.entity.CurworkloadExample">
+    delete from curworkload
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.ssmshiro.entity.Curworkload">
+    insert into curworkload (id, xq, kch, 
+      kxh, kcm, skls, lszc, 
+      yxid, kcsx, bjmc, krl, 
+      xkrs, zxs, mzxs, skxs, 
+      sjxs, syxs, xf, kclx, 
+      sfcxk, bz, kclx1, kclx2, 
+      kclx3, kcxs, rsxs, lljxgzl, 
+      sjjxgzl, sumgzl, cwd, jy
+      )
+    values (#{id,jdbcType=INTEGER}, #{xq,jdbcType=INTEGER}, #{kch,jdbcType=VARCHAR}, 
+      #{kxh,jdbcType=VARCHAR}, #{kcm,jdbcType=VARCHAR}, #{skls,jdbcType=VARCHAR}, #{lszc,jdbcType=VARCHAR}, 
+      #{yxid,jdbcType=INTEGER}, #{kcsx,jdbcType=VARCHAR}, #{bjmc,jdbcType=VARCHAR}, #{krl,jdbcType=INTEGER}, 
+      #{xkrs,jdbcType=INTEGER}, #{zxs,jdbcType=INTEGER}, #{mzxs,jdbcType=INTEGER}, #{skxs,jdbcType=INTEGER}, 
+      #{sjxs,jdbcType=INTEGER}, #{syxs,jdbcType=INTEGER}, #{xf,jdbcType=REAL}, #{kclx,jdbcType=VARCHAR}, 
+      #{sfcxk,jdbcType=INTEGER}, #{bz,jdbcType=VARCHAR}, #{kclx1,jdbcType=VARCHAR}, #{kclx2,jdbcType=VARCHAR}, 
+      #{kclx3,jdbcType=VARCHAR}, #{kcxs,jdbcType=REAL}, #{rsxs,jdbcType=REAL}, #{lljxgzl,jdbcType=REAL}, 
+      #{sjjxgzl,jdbcType=REAL}, #{sumgzl,jdbcType=REAL}, #{cwd,jdbcType=VARCHAR}, #{jy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.ssmshiro.entity.Curworkload">
+    insert into curworkload
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="xq != null">
+        xq,
+      </if>
+      <if test="kch != null">
+        kch,
+      </if>
+      <if test="kxh != null">
+        kxh,
+      </if>
+      <if test="kcm != null">
+        kcm,
+      </if>
+      <if test="skls != null">
+        skls,
+      </if>
+      <if test="lszc != null">
+        lszc,
+      </if>
+      <if test="yxid != null">
+        yxid,
+      </if>
+      <if test="kcsx != null">
+        kcsx,
+      </if>
+      <if test="bjmc != null">
+        bjmc,
+      </if>
+      <if test="krl != null">
+        krl,
+      </if>
+      <if test="xkrs != null">
+        xkrs,
+      </if>
+      <if test="zxs != null">
+        zxs,
+      </if>
+      <if test="mzxs != null">
+        mzxs,
+      </if>
+      <if test="skxs != null">
+        skxs,
+      </if>
+      <if test="sjxs != null">
+        sjxs,
+      </if>
+      <if test="syxs != null">
+        syxs,
+      </if>
+      <if test="xf != null">
+        xf,
+      </if>
+      <if test="kclx != null">
+        kclx,
+      </if>
+      <if test="sfcxk != null">
+        sfcxk,
+      </if>
+      <if test="bz != null">
+        bz,
+      </if>
+      <if test="kclx1 != null">
+        kclx1,
+      </if>
+      <if test="kclx2 != null">
+        kclx2,
+      </if>
+      <if test="kclx3 != null">
+        kclx3,
+      </if>
+      <if test="kcxs != null">
+        kcxs,
+      </if>
+      <if test="rsxs != null">
+        rsxs,
+      </if>
+      <if test="lljxgzl != null">
+        lljxgzl,
+      </if>
+      <if test="sjjxgzl != null">
+        sjjxgzl,
+      </if>
+      <if test="sumgzl != null">
+        sumgzl,
+      </if>
+      <if test="cwd != null">
+        cwd,
+      </if>
+      <if test="jy != null">
+        jy,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="xq != null">
+        #{xq,jdbcType=INTEGER},
+      </if>
+      <if test="kch != null">
+        #{kch,jdbcType=VARCHAR},
+      </if>
+      <if test="kxh != null">
+        #{kxh,jdbcType=VARCHAR},
+      </if>
+      <if test="kcm != null">
+        #{kcm,jdbcType=VARCHAR},
+      </if>
+      <if test="skls != null">
+        #{skls,jdbcType=VARCHAR},
+      </if>
+      <if test="lszc != null">
+        #{lszc,jdbcType=VARCHAR},
+      </if>
+      <if test="yxid != null">
+        #{yxid,jdbcType=INTEGER},
+      </if>
+      <if test="kcsx != null">
+        #{kcsx,jdbcType=VARCHAR},
+      </if>
+      <if test="bjmc != null">
+        #{bjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="krl != null">
+        #{krl,jdbcType=INTEGER},
+      </if>
+      <if test="xkrs != null">
+        #{xkrs,jdbcType=INTEGER},
+      </if>
+      <if test="zxs != null">
+        #{zxs,jdbcType=INTEGER},
+      </if>
+      <if test="mzxs != null">
+        #{mzxs,jdbcType=INTEGER},
+      </if>
+      <if test="skxs != null">
+        #{skxs,jdbcType=INTEGER},
+      </if>
+      <if test="sjxs != null">
+        #{sjxs,jdbcType=INTEGER},
+      </if>
+      <if test="syxs != null">
+        #{syxs,jdbcType=INTEGER},
+      </if>
+      <if test="xf != null">
+        #{xf,jdbcType=REAL},
+      </if>
+      <if test="kclx != null">
+        #{kclx,jdbcType=VARCHAR},
+      </if>
+      <if test="sfcxk != null">
+        #{sfcxk,jdbcType=INTEGER},
+      </if>
+      <if test="bz != null">
+        #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx1 != null">
+        #{kclx1,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx2 != null">
+        #{kclx2,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx3 != null">
+        #{kclx3,jdbcType=VARCHAR},
+      </if>
+      <if test="kcxs != null">
+        #{kcxs,jdbcType=REAL},
+      </if>
+      <if test="rsxs != null">
+        #{rsxs,jdbcType=REAL},
+      </if>
+      <if test="lljxgzl != null">
+        #{lljxgzl,jdbcType=REAL},
+      </if>
+      <if test="sjjxgzl != null">
+        #{sjjxgzl,jdbcType=REAL},
+      </if>
+      <if test="sumgzl != null">
+        #{sumgzl,jdbcType=REAL},
+      </if>
+      <if test="cwd != null">
+        #{cwd,jdbcType=VARCHAR},
+      </if>
+      <if test="jy != null">
+        #{jy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.ssmshiro.entity.CurworkloadExample" resultType="java.lang.Long">
+    select count(*) from curworkload
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update curworkload
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.xq != null">
+        xq = #{record.xq,jdbcType=INTEGER},
+      </if>
+      <if test="record.kch != null">
+        kch = #{record.kch,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kxh != null">
+        kxh = #{record.kxh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kcm != null">
+        kcm = #{record.kcm,jdbcType=VARCHAR},
+      </if>
+      <if test="record.skls != null">
+        skls = #{record.skls,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lszc != null">
+        lszc = #{record.lszc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.yxid != null">
+        yxid = #{record.yxid,jdbcType=INTEGER},
+      </if>
+      <if test="record.kcsx != null">
+        kcsx = #{record.kcsx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bjmc != null">
+        bjmc = #{record.bjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.krl != null">
+        krl = #{record.krl,jdbcType=INTEGER},
+      </if>
+      <if test="record.xkrs != null">
+        xkrs = #{record.xkrs,jdbcType=INTEGER},
+      </if>
+      <if test="record.zxs != null">
+        zxs = #{record.zxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.mzxs != null">
+        mzxs = #{record.mzxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.skxs != null">
+        skxs = #{record.skxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.sjxs != null">
+        sjxs = #{record.sjxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.syxs != null">
+        syxs = #{record.syxs,jdbcType=INTEGER},
+      </if>
+      <if test="record.xf != null">
+        xf = #{record.xf,jdbcType=REAL},
+      </if>
+      <if test="record.kclx != null">
+        kclx = #{record.kclx,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sfcxk != null">
+        sfcxk = #{record.sfcxk,jdbcType=INTEGER},
+      </if>
+      <if test="record.bz != null">
+        bz = #{record.bz,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kclx1 != null">
+        kclx1 = #{record.kclx1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kclx2 != null">
+        kclx2 = #{record.kclx2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kclx3 != null">
+        kclx3 = #{record.kclx3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.kcxs != null">
+        kcxs = #{record.kcxs,jdbcType=REAL},
+      </if>
+      <if test="record.rsxs != null">
+        rsxs = #{record.rsxs,jdbcType=REAL},
+      </if>
+      <if test="record.lljxgzl != null">
+        lljxgzl = #{record.lljxgzl,jdbcType=REAL},
+      </if>
+      <if test="record.sjjxgzl != null">
+        sjjxgzl = #{record.sjjxgzl,jdbcType=REAL},
+      </if>
+      <if test="record.sumgzl != null">
+        sumgzl = #{record.sumgzl,jdbcType=REAL},
+      </if>
+      <if test="record.cwd != null">
+        cwd = #{record.cwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jy != null">
+        jy = #{record.jy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update curworkload
+    set id = #{record.id,jdbcType=INTEGER},
+      xq = #{record.xq,jdbcType=INTEGER},
+      kch = #{record.kch,jdbcType=VARCHAR},
+      kxh = #{record.kxh,jdbcType=VARCHAR},
+      kcm = #{record.kcm,jdbcType=VARCHAR},
+      skls = #{record.skls,jdbcType=VARCHAR},
+      lszc = #{record.lszc,jdbcType=VARCHAR},
+      yxid = #{record.yxid,jdbcType=INTEGER},
+      kcsx = #{record.kcsx,jdbcType=VARCHAR},
+      bjmc = #{record.bjmc,jdbcType=VARCHAR},
+      krl = #{record.krl,jdbcType=INTEGER},
+      xkrs = #{record.xkrs,jdbcType=INTEGER},
+      zxs = #{record.zxs,jdbcType=INTEGER},
+      mzxs = #{record.mzxs,jdbcType=INTEGER},
+      skxs = #{record.skxs,jdbcType=INTEGER},
+      sjxs = #{record.sjxs,jdbcType=INTEGER},
+      syxs = #{record.syxs,jdbcType=INTEGER},
+      xf = #{record.xf,jdbcType=REAL},
+      kclx = #{record.kclx,jdbcType=VARCHAR},
+      sfcxk = #{record.sfcxk,jdbcType=INTEGER},
+      bz = #{record.bz,jdbcType=VARCHAR},
+      kclx1 = #{record.kclx1,jdbcType=VARCHAR},
+      kclx2 = #{record.kclx2,jdbcType=VARCHAR},
+      kclx3 = #{record.kclx3,jdbcType=VARCHAR},
+      kcxs = #{record.kcxs,jdbcType=REAL},
+      rsxs = #{record.rsxs,jdbcType=REAL},
+      lljxgzl = #{record.lljxgzl,jdbcType=REAL},
+      sjjxgzl = #{record.sjjxgzl,jdbcType=REAL},
+      sumgzl = #{record.sumgzl,jdbcType=REAL},
+      cwd = #{record.cwd,jdbcType=VARCHAR},
+      jy = #{record.jy,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.ssmshiro.entity.Curworkload">
+    update curworkload
+    <set>
+      <if test="xq != null">
+        xq = #{xq,jdbcType=INTEGER},
+      </if>
+      <if test="kch != null">
+        kch = #{kch,jdbcType=VARCHAR},
+      </if>
+      <if test="kxh != null">
+        kxh = #{kxh,jdbcType=VARCHAR},
+      </if>
+      <if test="kcm != null">
+        kcm = #{kcm,jdbcType=VARCHAR},
+      </if>
+      <if test="skls != null">
+        skls = #{skls,jdbcType=VARCHAR},
+      </if>
+      <if test="lszc != null">
+        lszc = #{lszc,jdbcType=VARCHAR},
+      </if>
+      <if test="yxid != null">
+        yxid = #{yxid,jdbcType=INTEGER},
+      </if>
+      <if test="kcsx != null">
+        kcsx = #{kcsx,jdbcType=VARCHAR},
+      </if>
+      <if test="bjmc != null">
+        bjmc = #{bjmc,jdbcType=VARCHAR},
+      </if>
+      <if test="krl != null">
+        krl = #{krl,jdbcType=INTEGER},
+      </if>
+      <if test="xkrs != null">
+        xkrs = #{xkrs,jdbcType=INTEGER},
+      </if>
+      <if test="zxs != null">
+        zxs = #{zxs,jdbcType=INTEGER},
+      </if>
+      <if test="mzxs != null">
+        mzxs = #{mzxs,jdbcType=INTEGER},
+      </if>
+      <if test="skxs != null">
+        skxs = #{skxs,jdbcType=INTEGER},
+      </if>
+      <if test="sjxs != null">
+        sjxs = #{sjxs,jdbcType=INTEGER},
+      </if>
+      <if test="syxs != null">
+        syxs = #{syxs,jdbcType=INTEGER},
+      </if>
+      <if test="xf != null">
+        xf = #{xf,jdbcType=REAL},
+      </if>
+      <if test="kclx != null">
+        kclx = #{kclx,jdbcType=VARCHAR},
+      </if>
+      <if test="sfcxk != null">
+        sfcxk = #{sfcxk,jdbcType=INTEGER},
+      </if>
+      <if test="bz != null">
+        bz = #{bz,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx1 != null">
+        kclx1 = #{kclx1,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx2 != null">
+        kclx2 = #{kclx2,jdbcType=VARCHAR},
+      </if>
+      <if test="kclx3 != null">
+        kclx3 = #{kclx3,jdbcType=VARCHAR},
+      </if>
+      <if test="kcxs != null">
+        kcxs = #{kcxs,jdbcType=REAL},
+      </if>
+      <if test="rsxs != null">
+        rsxs = #{rsxs,jdbcType=REAL},
+      </if>
+      <if test="lljxgzl != null">
+        lljxgzl = #{lljxgzl,jdbcType=REAL},
+      </if>
+      <if test="sjjxgzl != null">
+        sjjxgzl = #{sjjxgzl,jdbcType=REAL},
+      </if>
+      <if test="sumgzl != null">
+        sumgzl = #{sumgzl,jdbcType=REAL},
+      </if>
+      <if test="cwd != null">
+        cwd = #{cwd,jdbcType=VARCHAR},
+      </if>
+      <if test="jy != null">
+        jy = #{jy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.ssmshiro.entity.Curworkload">
+    update curworkload
+    set xq = #{xq,jdbcType=INTEGER},
+      kch = #{kch,jdbcType=VARCHAR},
+      kxh = #{kxh,jdbcType=VARCHAR},
+      kcm = #{kcm,jdbcType=VARCHAR},
+      skls = #{skls,jdbcType=VARCHAR},
+      lszc = #{lszc,jdbcType=VARCHAR},
+      yxid = #{yxid,jdbcType=INTEGER},
+      kcsx = #{kcsx,jdbcType=VARCHAR},
+      bjmc = #{bjmc,jdbcType=VARCHAR},
+      krl = #{krl,jdbcType=INTEGER},
+      xkrs = #{xkrs,jdbcType=INTEGER},
+      zxs = #{zxs,jdbcType=INTEGER},
+      mzxs = #{mzxs,jdbcType=INTEGER},
+      skxs = #{skxs,jdbcType=INTEGER},
+      sjxs = #{sjxs,jdbcType=INTEGER},
+      syxs = #{syxs,jdbcType=INTEGER},
+      xf = #{xf,jdbcType=REAL},
+      kclx = #{kclx,jdbcType=VARCHAR},
+      sfcxk = #{sfcxk,jdbcType=INTEGER},
+      bz = #{bz,jdbcType=VARCHAR},
+      kclx1 = #{kclx1,jdbcType=VARCHAR},
+      kclx2 = #{kclx2,jdbcType=VARCHAR},
+      kclx3 = #{kclx3,jdbcType=VARCHAR},
+      kcxs = #{kcxs,jdbcType=REAL},
+      rsxs = #{rsxs,jdbcType=REAL},
+      lljxgzl = #{lljxgzl,jdbcType=REAL},
+      sjjxgzl = #{sjjxgzl,jdbcType=REAL},
+      sumgzl = #{sumgzl,jdbcType=REAL},
+      cwd = #{cwd,jdbcType=VARCHAR},
+      jy = #{jy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

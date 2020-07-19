@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC
+        "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+        "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+         version="3.0">
+
+  <display-name>Archetype Created Web Application</display-name>
+
+  <!-- 以下3项参数与log4j的配置相关 log日志打印 -->
+  <context-param>
+    <param-name>log4jContextName</param-name>
+    <param-value>star</param-value>
+  </context-param>
+  <context-param>
+    <param-name>log4jConfigLoaction</param-name>
+    <param-value>classpath*:log4j2.xml</param-value>
+  </context-param>
+  <context-param>
+    <param-name>log4jRefreshInterval</param-name>
+    <param-value>60000</param-value>
+  </context-param>
+  <!-- end -->
+  <!--spring配置文件的路径-->
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath*:config/spring-web.xml</param-value>
+  </context-param>
+  
+  <!--Spring上下文容器监听器-->
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  
+  <!--监听器-->
+  <listener>
+    <listener-class>com.xzit.ssm.listener.WebContainerListener</listener-class>
+  </listener>
+
+  <!--注册字符集过滤器：解决中文乱码问题-->
+  <filter>
+    <filter-name>characterEncodingFilter</filter-name>
+    <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+    <!--指定字符集-->
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>utf-8</param-value>
+    </init-param>
+    <!--指定强制指定的字符集-->
+    <init-param>
+      <param-name>forceEncoding</param-name>
+      <param-value>true</param-value>
+    </init-param>
+  </filter>
+  <filter-mapping>
+    <filter-name>characterEncodingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <!--log4j2-->
+  <filter>
+    <filter-name>log4jServletFilter</filter-name>
+    <filter-class>org.apache.logging.log4j.web.Log4jServletFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>log4jServletFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+  </filter-mapping>
+
+  <!--注册中央处理器-->
+  <servlet>
+    <servlet-name>springmvc</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <!--制定SpringMVC的配置文件-->
+    <init-param>
+      <param-name>contextConfigLocation</param-name>
+      <param-value>classpath:config/spring-web.xml</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>springmvc</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+
+  <!-- 解决HTTP PUT、 DELETE请求Spring无法获取请求参数的问题 -->
+  <filter>
+    <filter-name>HttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HttpMethodFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <!-- 备注，这边的名称必须和配置'springmvc'的servlet名称一样 -->
+    <servlet-name>springmvc</servlet-name>
+  </filter-mapping>
+
+  <!-- 配置session超时时间，单位分钟 -->
+  <!-- Session超时60分钟(零或负数表示会话永不超时)-->
+  <session-config>
+    <session-timeout>30</session-timeout>
+  </session-config>
+
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <el-ignored>false</el-ignored>
+      <page-encoding>UTF-8</page-encoding>
+      <scripting-invalid>true</scripting-invalid>
+      <include-prelude>/commons/global.jsp</include-prelude>
+    </jsp-property-group>
+  </jsp-config>
+
+  <welcome-file-list>
+    <welcome-file>/index.jsp</welcome-file>
+  </welcome-file-list>
+
+  <!-- 配置静态资源不经过spring mvc -->
+  <servlet-mapping>
+    <servlet-name>
+      default
+    </servlet-name>
+    <url-pattern>
+      /statics/*
+    </url-pattern>
+  </servlet-mapping>
+
+  <!-- 请求无法解析,（错误请求） 服务器不理解请求的语法。-->
+  <error-page>
+    <error-code>400</error-code>
+    <location>/errors/400.jsp</location>
+  </error-page>
+  <!--（未授权） 请求要求身份验证。 对于需要登录的网页，服务器可能返回此响应-->
+  <error-page>
+    <error-code>401</error-code>
+    <location>/errors/401.jsp</location>
+  </error-page>
+  <!-- 本次访问被拒绝（禁止） 服务器拒绝请求 -->
+  <error-page>
+    <error-code>403</error-code>
+    <location>/errors/403.jsp</location>
+  </error-page>
+  <!-- 找不到页错误转向（未找到） 服务器找不到请求的网页 -->
+  <error-page>
+    <error-code>404</error-code>
+    <location>/errors/404.jsp</location>
+  </error-page>
+  <!--不允许此方法（方法禁用） 禁用请求中指定的方法-->
+  <error-page>
+    <error-code>405</error-code>
+    <location>/errors/405.jsp</location>
+  </error-page>
+  <!--客户端浏览器不接受所请求页面的MIME类型（不接受） 无法使用请求的内容特性响应请求的网页-->
+  <error-page>
+    <error-code>406</error-code>
+    <location>/errors/406.jsp</location>
+  </error-page>
+  <!--Web服务器需要初始的代理验证（需要代理授权） 此状态代码与 401（未授权）类似，但指定请求者应当授权使用代理-->
+  <error-page>
+    <error-code>407</error-code>
+    <location>/errors/407.jsp</location>
+  </error-page>
+  <!--（请求超时） 服务器等候请求时发生超时-->
+  <error-page>
+    <error-code>408</error-code>
+    <location>/errors/408.jsp</location>
+  </error-page>
+  <!--（冲突） 服务器在完成请求时发生冲突。服务器必须在响应中包含有关冲突的信息-->
+  <error-page>
+    <error-code>409</error-code>
+    <location>/errors/409.jsp</location>
+  </error-page>
+  <!--（已删除） 如果请求的资源已永久删除，服务器就会返回此响应-->
+  <error-page>
+    <error-code>410</error-code>
+    <location>/errors/410.jsp</location>
+  </error-page>
+  <!--（需要有效长度） 服务器不接受不含有效内容长度标头字段的请求-->
+  <error-page>
+    <error-code>411</error-code>
+    <location>/errors/411.jsp</location>
+  </error-page>
+  <!--（未满足前提条件） 服务器未满足请求者在请求中设置的其中一个前提条件-->
+  <error-page>
+    <error-code>412</error-code>
+    <location>/errors/412.jsp</location>
+  </error-page>
+  <!--（请求实体过大） 服务器无法处理请求，因为请求实体过大，超出服务器的处理能力-->
+  <error-page>
+    <error-code>413</error-code>
+    <location>/errors/413.jsp</location>
+  </error-page>
+  <!--（请求的 URI 过长） 请求的 URI（通常为网址）过长，服务器无法处理-->
+  <error-page>
+    <error-code>414</error-code>
+    <location>/errors/414.jsp</location>
+  </error-page>
+  <!--（不支持的媒体类型） 请求的格式不受请求页面的支持-->
+  <error-page>
+    <error-code>415</error-code>
+    <location>/errors/415.jsp</location>
+  </error-page>
+  <!--（请求范围不符合要求） 如果页面无法提供请求的范围，则服务器会返回此状态代码-->
+  <error-page>
+    <error-code>416</error-code>
+    <location>/errors/416.jsp</location>
+  </error-page>
+  <!--（未满足期望值） 服务器未满足"期望"请求标头字段的要求-->
+  <error-page>
+    <error-code>417</error-code>
+    <location>/errors/417.jsp</location>
+  </error-page>
+  <!-- 系统内部错误转向,服务器内部发生错误，无法完成请求 -->
+  <error-page>
+    <error-code>500</error-code>
+    <location>/errors/500.jsp</location>
+  </error-page>
+  <!-- （尚未实施） 服务器不具备完成请求的功能。例如，服务器无法识别请求方法时可能会返回此代码 -->
+  <error-page>
+    <error-code>501</error-code>
+    <location>/errors/501.jsp</location>
+  </error-page>
+  <!-- （错误网关） 服务器作为网关或代理，从上游服务器收到无效响应 -->
+  <error-page>
+    <error-code>502</error-code>
+    <location>/errors/502.jsp</location>
+  </error-page>
+  <!-- （服务不可用） 服务器目前无法使用（由于超载或停机维护）。通常，这只是暂时状态 -->
+  <error-page>
+    <error-code>503</error-code>
+    <location>/errors/503.jsp</location>
+  </error-page>
+  <!-- （网关超时） 服务器作为网关或代理，但是没有及时从上游服务器收到请求 -->
+  <error-page>
+    <error-code>504</error-code>
+    <location>/errors/504.jsp</location>
+  </error-page>
+  <!-- （HTTP 版本不受支持） 服务器不支持请求中所用的 HTTP 协议版本 -->
+  <error-page>
+    <error-code>505</error-code>
+    <location>/errors/505.jsp</location>
+  </error-page>
+  <!-- java.lang.Exception异常错误,依据这个标记可定义多个类似错误提示 -->
+  <error-page>
+    <exception-type>java.lang.Exception</exception-type>
+    <location>/errors/500.jsp</location>
+  </error-page>
+  <!-- java.lang.NullPointerException异常错误,依据这个标记可定义多个类似错误提示 -->
+  <error-page>
+    <exception-type>java.lang.NullPointerException</exception-type>
+    <location>/errors/500.jsp</location>
+  </error-page>
+  <error-page>
+    <exception-type>javax.servlet.ServletException</exception-type>
+    <location>/errors/500.jsp</location>
+  </error-page>
+  <error-page>
+    <exception-type>java.lang.Throwable</exception-type>
+    <location>/errors/500.jsp</location>
+  </error-page>
+
+
+</web-app>

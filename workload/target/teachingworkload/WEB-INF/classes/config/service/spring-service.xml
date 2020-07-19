@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+    <!-- 扫描service包下所有使用注解的类型 -->
+    <context:component-scan base-package="com.xzit.ssm.service" />
+
+    <!-- 事务管理器，对mybatis操作数据库进行事务控制，spring使用jdbc的事务控制类-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!-- spring 事务注解 mode="aspectj"表示采用切面 mode="proxy"表示代理模式(默认)-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+    <!-- 通知映射到上面的事务管理器-->
+    <!-- 通知映射到上面的事务管理器-->
+    <tx:advice id="txAdive" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="insert*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="find*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="get*" propagation="SUPPORTS" read-only="true"/>
+            <tx:method name="select*" propagation="SUPPORTS" read-only="true"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- aop切面并配置切入点入进行事物管理 指向上面的映射 -->
+    <aop:config>
+        <aop:pointcut expression="execution(* com.xzit.ssm.service.*.*(..))" id="transactionPointcut"/>
+        <aop:advisor advice-ref="txAdive" pointcut-ref="transactionPointcut"/>
+    </aop:config>
+</beans>
